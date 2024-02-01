@@ -59,6 +59,18 @@ const studentSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  telephone: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function (value) {
+        // Ensure the telephone number begins with "254"
+        return /^254\d{9}$/.test(value);
+      },
+      message: 'Telephone number must begin with "254" and have a total of 12 digits.',
+    },
+  },
+  
   exam: {
     type: String,
     enum: ['general', 'KNEC', 'JPUK', 'ICM'],
@@ -87,7 +99,7 @@ const studentSchema = new mongoose.Schema({
   covered: {
     type: String,
   },
-  notCovered: {
+  uncovered: {
     type: String,
   },
 }, { timestamps: true }

@@ -5,7 +5,7 @@ const AddstudentPage = () => {
         <div className={styles.container}>
             <form action="" className={styles.form}>
                 <input type="text" placeholder="name" name="name" required />
-                <input type="number" placeholder="admmision" name="admmision" required />
+                <input type="text" placeholder="admmision" name="admmision" required />
                 <input type="course" placeholder="course" name="course" required />
                 <input type="date" placeholder="admmisionDate" name="admmisionDate" required />
                 <input type="email" placeholder="email" name="email" required />
@@ -27,15 +27,16 @@ const AddstudentPage = () => {
                     <option value="Evening">Evening</option>
                     <option value="Distance">Distance</option>
                     <option value="Virtual">Virtual</option>
-                    <option value="Sartuday">Sartuday</option>
+                    <option value="Saturday">Saturday</option> {/* Corrected spelling */}
                 </select>
+
                 <select name="level" id="level">
                     <option value="general">Level</option>
                     <option value="Certificate">Certificate</option>
                     <option value="Diploma">Diploma</option>
                 </select>
                 <select name="accomodation" id="accomodation">
-                <option value="general">Accomodation</option>
+                    <option value="general">Accomodation</option>
                     <option value="Hostel">Hostel</option>
                     <option value="Non-resident">Non-resident</option>
                 </select>
@@ -48,8 +49,8 @@ const AddstudentPage = () => {
                 ></textarea>
 
                 <textarea
-                    name="not covered"
-                    id="notcovered"
+                    name="uncovered"
+                    id="uncovered"
                     //  cols="30" 
                     rows="5"
                     placeholder="Units not Covered"

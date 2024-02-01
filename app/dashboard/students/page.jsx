@@ -3,8 +3,13 @@ import Pagination from "@/ui/dashboard/pagination/pagination";
 import styles from "@/ui/dashboard/users/users.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import { fetchStudents } from "../../../pages/api/test/data";
 
-const UserPage = () => {
+const StudentsPage = async ({searchParams}) => {
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
+  const {count,students} = await fetchStudents(q,page);
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -19,7 +24,7 @@ const UserPage = () => {
           <tr>
             <td>Name</td>
             <td>Admission</td>
-            <td>Resume Date</td>
+            <td>ResumeAt</td>
             <td>Course</td>
             <td>Phone</td>
             <td>Year of admmision</td>
@@ -29,10 +34,13 @@ const UserPage = () => {
             <td>Mode of study</td>
             <td>Level</td>
             <td>Accomodation</td>
+            <td>covered</td>
+            <td>uncovered</td>
           </tr>
         </thead>
         <tbody>
-          <tr>
+        {students.map(student=>(  
+          <tr key={student.id}>
             <td>
               <div className={styles.user}>
                 <Image
@@ -42,34 +50,37 @@ const UserPage = () => {
                   height={40}
                   className={styles.userImage}
                 />
-                Pius khainja
+                {student.name}
               </div>
             </td>
-            <td>43477</td>
-            <td>1.22.2004</td>
-            <td>ICT</td>
-            <td className={styles.hiddenContent}>0741535521</td>
-            <td className={styles.hiddenContent}>2022</td>
-            <td className={styles.hiddenContent}>Non-resident</td>
-            <td className={styles.hiddenContent}>KNEC</td>
-            <td className={styles.hiddenContent}>3</td>
-            <td className={styles.hiddenContent}>Full Time</td>
-            <td className={styles.hiddenContent}>Diploma</td>
-            <td className={styles.hiddenContent}>gabriel@gmail.com</td>
+            <td>{student.admission}</td>
+            <td>{student.resumeAt?.toString().splice(4,16)}</td>
+            <td>{student.course}</td>
+            <td className={styles.hiddenContent}>{student.telephone}</td>
+            <td className={styles.hiddenContent}>{student.admissionDate}</td>
+            <td className={styles.hiddenContent}>{student.email}</td>
+            <td className={styles.hiddenContent}>{student.exam}</td>
+            <td className={styles.hiddenContent}>{student.module}</td>
+            <td className={styles.hiddenContent}>{student.modStudy}</td>
+            <td className={styles.hiddenContent}>{student.level}</td>
+            <td className={styles.hiddenContent}>{student.accommodation}</td>
+            <td className={styles.hiddenContent}>{student.covered}</td>
+            <td className={styles.hiddenContent}>{student.uncovered}</td>
             <td>
               <div className={styles.button}>
-                <Link href="/dashboard/students/test">
+                <Link href={`/dashboard/students/${student.id}`}>
                   <button className={`${styles.button} ${styles.view}`}>View</button>
                 </Link>
                 <button className={`${styles.button} ${styles.delete}`}>Delete</button>
               </div>
             </td>
           </tr>
+          ))}
         </tbody>
       </table>
-      <Pagination/>
+      <Pagination count={count}/>
     </div>
   );
 };
 
-export default UserPage;
+export default StudentsPage;
