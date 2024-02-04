@@ -4,6 +4,7 @@ import styles from "@/ui/dashboard/users/users.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import { fetchStudents } from "../../../pages/api/test/data";
+import { deleteStudent } from "actions/actions";
 
 const StudentsPage = async ({searchParams}) => {
   const q = searchParams?.q || "";
@@ -24,10 +25,10 @@ const StudentsPage = async ({searchParams}) => {
           <tr>
             <td>Name</td>
             <td>Admission</td>
-            <td>ResumeAt</td>
+            <td>Resuming Date</td>
             <td>Course</td>
             <td>Phone</td>
-            <td>Year of admmision</td>
+            <td>Date admitted</td>
             <td>Email</td>
             <td>Exam</td>
             <td>Module</td>
@@ -54,10 +55,10 @@ const StudentsPage = async ({searchParams}) => {
               </div>
             </td>
             <td>{student.admission}</td>
-            <td>{student.resumeAt?.toString().splice(4,16)}</td>
+            <td>{student.createdAt?.toString().slice(4,16)}</td>
             <td>{student.course}</td>
             <td className={styles.hiddenContent}>{student.telephone}</td>
-            <td className={styles.hiddenContent}>{student.admissionDate}</td>
+            <td className={styles.hiddenContent}>{student.admindate}</td> 
             <td className={styles.hiddenContent}>{student.email}</td>
             <td className={styles.hiddenContent}>{student.exam}</td>
             <td className={styles.hiddenContent}>{student.module}</td>
@@ -71,7 +72,10 @@ const StudentsPage = async ({searchParams}) => {
                 <Link href={`/dashboard/students/${student.id}`}>
                   <button className={`${styles.button} ${styles.view}`}>View</button>
                 </Link>
+                <form action={deleteStudent}>
+                  <input type="hidden" name="id" value={student.id} />
                 <button className={`${styles.button} ${styles.delete}`}>Delete</button>
+                </form>
               </div>
             </td>
           </tr>

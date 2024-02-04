@@ -7,10 +7,7 @@ const Staffcard = () => {
             <MdSupervisedUserCircle size={20} />
             <div className={styles.text}>
                 <span className={styles.title}>Total Staff</span>
-                <span className={styles.number}>10</span>
-                <span className={styles.detail}>
-                    <span className={styles.positive}>12%</span>more than yesterday
-                </span>
+                <span className={styles.number}>coming soon....</span>
             </div>
         </div>
     );

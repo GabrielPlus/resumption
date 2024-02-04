@@ -4,6 +4,7 @@ import styles from "@/ui/dashboard/staffs/staffs.module.css"
 import Image from "next/image"
 import Link from "next/link"
 import { fetchUsers } from "../../../pages/api/test/data"
+import { deleteUser } from "actions/actions";
 
 const StaffsPage = async ({searchParams}) => {
   const q = searchParams?.q || "";
@@ -52,7 +53,10 @@ const StaffsPage = async ({searchParams}) => {
                 <Link href={'/dashboard/staffs/${user.id}'}>
                   <button className={`${styles.button} ${styles.view}`}>View</button>
                 </Link>
+                <form action={deleteUser}>
+                  <input type="hidden" name="id" value={(user.id)} />
                 <button className={`${styles.button} ${styles.delete}`}>Delete</button>
+                </form>
               </div>
             </td>
           </tr>

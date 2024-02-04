@@ -1,19 +1,38 @@
-import { MdSupervisedUserCircle } from 'react-icons/md'
-import styles from './card.module.css'
+// Card.js
+
+"use client";
+
+import React, { useEffect, useState } from 'react';
+import { MdSupervisedUserCircle } from 'react-icons/md';
+import styles from './card.module.css';
 
 const Card = () => {
-    return (
-        <div className={styles.container}>
-            <MdSupervisedUserCircle size={20} />
-            <div className={styles.text}>
-                <span className={styles.title}>Total Students</span>
-                <span className={styles.number}>150</span>
-                <span className={styles.detail}>
-                    <span className={styles.positive}>12%</span>more than yesterday
-                </span>
-            </div>
-        </div>
-    );
+  const [studentCount, setStudentCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('/api/test/data');  // Update the API route path
+        const data = await response.json();
+        setStudentCount(data.studentCount);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className={styles.container}>
+      <MdSupervisedUserCircle size={20} />
+      <div className={styles.text}>
+        <span className={styles.title}>Students Resumed</span>
+        <span className={styles.number}>{studentCount}</span>
+        
+      </div>
+    </div>
+  );
 };
 
 export default Card;

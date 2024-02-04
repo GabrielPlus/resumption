@@ -43,16 +43,9 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  admissionDate: {
-    type: Date,
+  admindate: {
+    type: String,
     required: true,
-    validate: {
-      validator: function (value) {
-        // Ensure the date is not in the future
-        return value <= new Date();
-      },
-      message: 'Admission date must not be in the future',
-    },
   },
   email: {
     type: String,

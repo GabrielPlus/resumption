@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const connectToDB = async () => {
   const connection = {};
@@ -8,7 +8,21 @@ export const connectToDB = async () => {
     const db = await mongoose.connect(process.env.MONGO);
     connection.isConnected = db.connections[0].readyState;
   } catch (error) {
-    console.log(error)
+    console.error(error);
     throw new Error(error);
   }
 };
+
+import { User, Student } from '../models/models';
+
+// Define a function to get the counts
+export async function getCounts() {
+  // Count the number of users
+  const userCount = await User.countDocuments({});
+
+  // Count the number of students
+  const studentCount = await Student.countDocuments({});
+
+  // Return the counts as an object
+  return { userCount, studentCount };
+}

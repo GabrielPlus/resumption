@@ -46,7 +46,7 @@ const data = [
 const Chart = () => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Weekly Recap</h2>
+      <h2 className={styles.title}>Weekly Recap Coming Soon..!</h2>
       <ResponsiveContainer width="100%" height="90%">
         <LineChart
           width={500}
