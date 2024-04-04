@@ -109,12 +109,25 @@ export const deleteUser = async (formData) => {
     revalidatePath("/dashboard/staffs")
 };
 
+
 export const authenticate = async (prevState, formData) => {
-    const { username, password } = Object.fromEntries(formData);
+  const { username, password } = Object.fromEntries(formData);
+
+  try {
+    await signIn("credentials", { username, password });
+  } catch (err) {
+    if (err.message.includes("CredentialsSignin")) {
+      return "Wrong Credentials";
+    }
+    throw err;
+  }
+};
+// export const authenticate = async (prevState, formData) => {
+//     const { username, password } = Object.fromEntries(formData);
   
-    try {
-      await signIn("credentials", { username, password });
-    } catch (err) {
-        return "Wrong Credentials";
-      }
-    };
+//     try {
+//       await signIn("credentials", { username, password });
+//     } catch (err) {
+//         return "Wrong Credentials";
+//       }
+//     };
