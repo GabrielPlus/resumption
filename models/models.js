@@ -66,8 +66,8 @@ const studentSchema = new mongoose.Schema({
   
   exam: {
     type: String,
-    enum: ['general', 'KNEC', 'JPUK', 'ICM'],
-    default: 'general',
+    enum: ['KNEC', 'JPUK', 'ICM'],
+    
   },
   module: {
     type: String,

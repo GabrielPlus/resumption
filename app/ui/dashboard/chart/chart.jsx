@@ -1,75 +1,53 @@
-"use client"
+"use client";
+import styles from './chart.module.css';
+import React, { PureComponent } from 'react';
+import { BarChart, Bar, Rectangle, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+export default class Example extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      chartData: null,
+    };
+  }
 
-import styles from './chart.module.css'
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+  async componentDidMount() {
+    try {
+      const response = await fetch('/api/test/data'); // Adjust the API endpoint as per your backend setup
+      const data = await response.json();
+      this.setState({ chartData: data.studentsByExam });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
-const data = [
-  {
-    date: "Mon",
-    Knec: 30,
-    Jpuk: 13,
-    ICM: 10,
+  render() {
+    const { chartData } = this.state;
 
-  },
-  {
-    date: "Tue",
-    Knec: 12,
-    Jpuk: 13,
-    ICM: 2,
-  },
-  {
-    date: "Wed",
-    Knec: 8,
-    Jpuk: 13,
-    ICM: 2,
-  },
-  {
-    date: "Thur",
-    Knec: 30,
-    Jpuk: 1,
-    ICM: 8,
-  },
-  {
-    date: "Fri",
-    Knec: 50,
-    Jpuk: 1,
-    ICM: 20,
-  },
-  {
-    date: "Sat",
-    Knec: 50,
-    Jpuk: 1,
-    ICM: 10,
-  },
-];
-
-const Chart = () => {
-  return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Weekly Recap Coming Soon..!</h2>
-      <ResponsiveContainer width="100%" height="90%">
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip contentStyle={{background:"#151c2c", border:"none"}}/>
-          <Legend />
-          <Line type="monotone" dataKey="Knec" stroke="#8884d8" strokeDasharray="5 5" />
-          <Line type="monotone" dataKey="Jpuk" stroke="#82ca9d" strokeDasharray="3 4 5 2" />
-          <Line type="monotone" dataKey="ICM" stroke="#e9e9f5" strokeDasharray="3 4 5 2" />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
-  )
+    return (
+      <div className={styles.container}>
+        <h2 className={styles.title}>Analytics</h2>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={[{ name: 'Students Report', ...chartData }]}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="KNEC" fill="#0088FE" activeBar={<Rectangle />} />
+            <Bar dataKey="JPUK" fill="#00C49F" activeBar={<Rectangle />} />
+            <Bar dataKey="ICM" fill="#FFBB28" activeBar={<Rectangle />} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    );
+  }
 }
-
-export default Chart

@@ -64,23 +64,34 @@ export const fetchStudent = async (id) => {
 };
 
 
-
-
 export default async function handler(req, res) {
-  try {
-    const counts = await getCounts();
-    console.log('Fetched student count:', counts.studentCount);
-    res.json({ studentCount: counts.studentCount });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    try {
+      const counts = await getCounts();
+      console.log('Fetched student count:', counts.studentCount);
+      console.log('Students by exam type:', counts.studentsByExam);
+      res.json({ studentCount: counts.studentCount, studentsByExam: counts.studentsByExam });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
 }
 
-getCounts()
-  .then((counts) => {
-    console.log(`dont worry they are fetched.`);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+
+// export default async function handler(req, res) {
+//   try {
+//     const counts = await getCounts();
+//     console.log('Fetched student count:', counts.studentCount);
+//     res.json({ studentCount: counts.studentCount });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// }
+
+// getCounts()
+//   .then((counts) => {
+//     console.log(`dont worry they are fetched.`);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
