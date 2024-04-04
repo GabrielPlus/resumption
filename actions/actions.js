@@ -111,10 +111,12 @@ export const deleteUser = async (formData) => {
 
 
 export const authenticate = async (prevState, formData) => {
-  const { username, password } = Object.fromEntries(formData);
+  const { username, password } = formData;
 
   try {
+    // Assuming signIn function accepts 'method' and 'credentials' parameters
     await signIn("credentials", { username, password });
+    // If additional parameters are required, i pass them as needed
   } catch (err) {
     if (err.message.includes("CredentialsSignin")) {
       return "Wrong Credentials";
@@ -122,12 +124,3 @@ export const authenticate = async (prevState, formData) => {
     throw err;
   }
 };
-// export const authenticate = async (prevState, formData) => {
-//     const { username, password } = Object.fromEntries(formData);
-  
-//     try {
-//       await signIn("credentials", { username, password });
-//     } catch (err) {
-//         return "Wrong Credentials";
-//       }
-//     };
