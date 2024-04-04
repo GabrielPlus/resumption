@@ -42,37 +42,43 @@ export const addUser = async (formData) => {
 // student create
 
 export const addStudent = async (formData) => {
-    const { name, admission, course, admindate, email, telephone, exam, module, modStudy, level, accommodation, covered, uncovered } = 
-        Object.fromEntries(formData);
+  if (!formData) {
+      console.error("formData is undefined");
+      return;
+  }
 
-    try {
-        connectToDB();
-        
-        const newStudent = new Student({
-            name, 
-            admission, 
-            course,
-            admindate,
-            email, 
-            telephone, 
-            exam, 
-            module, 
-            modStudy, 
-            level, 
-            accommodation, 
-            covered, 
-            uncovered,
-        });
+  const { name, admission, course, admindate, email, telephone, exam, module, modStudy, level, accommodation, covered, uncovered } = formData;
 
-    await newStudent.save();    
-    } catch (err) {
+  try {
+      connectToDB();
+      
+      const newStudent = new Student({
+          name, 
+          admission, 
+          course,
+          admindate,
+          email, 
+          telephone, 
+          exam, 
+          module, 
+          modStudy, 
+          level, 
+          accommodation, 
+          covered, 
+          uncovered,
+      });
+
+      await newStudent.save(); 
+      return { success: true, message: "Student created successfully" };   
+  } catch (err) {
       console.log(err);
-        // throw new Error("Failed to create user");
-    }
+      // throw new Error("Failed to create student");
+  }
 
-    revalidatePath("/dashboard/students")
-    redirect("/dashboard/students")
+  revalidatePath("/dashboard/students");
+  redirect("/dashboard/students");
 };
+
 
 
 // student delete
@@ -100,7 +106,7 @@ export const deleteUser = async (formData) => {
 
     try {
         connectToDB();
-        await User.findByIdAndDelete(id)    
+        await User.findByIdAndDelete(id)
     } catch (err) {
       console.log(err);
         // throw new Error("Failed to create user");

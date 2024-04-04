@@ -1,16 +1,36 @@
-import styles from '@/ui/dashboard/users/addUser/addUser.module.css'
+"use client";
+import styles from '@/ui/dashboard/users/addUser/addUser.module.css';
 import { addStudent } from "../../../../actions/actions";
+import { useState } from "react";
 
-const AddstudentPage = () => {
+const AddStudentPage = () => {
+    const [loading, setLoading] = useState(false);
+
+    const add = async (event) => {
+        event.preventDefault();
+        setLoading(true); // Set loading state to true when form submission starts
+        const formData = new FormData(event.target);
+        const formValues = Object.fromEntries(formData);
+        try {
+            await addStudent(formValues);
+            // If student addition is successful, you can redirect or perform other actions
+        } catch (error) {
+            console.error("Error adding student:", error);
+            // Handle errors
+        } finally {
+            setLoading(false); // Reset loading state regardless of success or failure
+        }
+    };
+
     return (
         <div className={styles.container}>
-            <form action={addStudent} className={styles.form}>
-                <input type="text" placeholder="name" name="name" required />
-                <input type="number" placeholder="admission" name="admission" required />
-                <input type="course" placeholder="course" name="course" required />
-                <input type="admindate" placeholder="admindate" name="admindate" required />
+            <form onSubmit={add} className={styles.form}>
+                <input type="text" placeholder="Name" name="name" required />
+                <input type="number" placeholder="Admission" name="admission" required />
+                <input type="text" placeholder="Course" name="course" required />
+                <input type="text" placeholder="Admission Date" name="admindate" required />
                 <input type="text" placeholder="Phone" name="telephone" />
-                <input type="email" placeholder="email" name="email" required />
+                <input type="email" placeholder="Email" name="email" required />
                 <select name="exam" id="exam">
                     <option value="general">Choose Exam</option>
                     <option value="KNEC">KNEC</option>
@@ -29,7 +49,7 @@ const AddstudentPage = () => {
                     <option value="Evening">Evening</option>
                     <option value="Distance">Distance</option>
                     <option value="Virtual">Virtual</option>
-                    <option value="Saturday">Saturday</option> {/* Corrected spelling */}
+                    <option value="Saturday">Saturday</option>
                 </select>
 
                 <select name="level" id="level">
@@ -42,25 +62,17 @@ const AddstudentPage = () => {
                     <option value="Hostel">Hostel</option>
                     <option value="Non-resident">Non-resident</option>
                 </select>
-                <textarea
-                    name="covered"
-                    id="covered"
-                    //  cols="30" 
-                    rows="5"
-                    placeholder="Units Covered"
-                ></textarea>
-
-                <textarea
-                    name="uncovered"
-                    id="uncovered"
-                    //  cols="30" 
-                    rows="5"
-                    placeholder="Units not Covered"
-                ></textarea>
-                <button type="submit">Submit</button>
+                <textarea name="covered" id="covered" rows="5" placeholder="Units Covered"></textarea>
+                <textarea name="uncovered" id="uncovered" rows="5" placeholder="Units not Covered"></textarea>
+                <button type="submit">{loading ? "Please Wait...." : "Add Student"}</button>
             </form>
         </div>
     );
 };
 
-export default AddstudentPage;
+export default AddStudentPage;
+
+
+
+
+
