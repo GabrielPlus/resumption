@@ -122,10 +122,10 @@ export const authenticate = async (prevState, formData) => {
   try {
     // Assuming signIn function accepts 'method' and 'credentials' parameters
     await signIn("credentials", { username, password });
-    // If additional parameters are required, i pass them as needed
+    // If additional parameters are required, pass them as needed
   } catch (err) {
     if (err.message.includes("CredentialsSignin")) {
-      return "Wrong Credentials";
+      throw new Error("Incorrect username or password!");
     }
     throw err;
   }
