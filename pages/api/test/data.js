@@ -31,23 +31,31 @@ export const fetchUser = async (id) => {
 };
 
 
-export const fetchStudents = async (q, page) => {
+export const fetchStudents = async (q, page, all = false) => {
     const regex = new RegExp(q, "i");
     const ITEM_PER_PAGE = 3;
 
     try {
         connectToDB();
-        const count = await Student.find({ name: { $regex: regex } }).count();
-        const students = await Student.find({ name: { $regex: regex } })
-            .limit(ITEM_PER_PAGE)
-            .skip(ITEM_PER_PAGE * (page - 1));
-
-        return { count, students };
+        
+        if (all) {
+            // Fetch all students without pagination
+            const students = await Student.find({ name: { $regex: regex } });
+            return { students };
+        } else {
+            // Fetch students with pagination
+            const count = await Student.find({ name: { $regex: regex } }).count();
+            const students = await Student.find({ name: { $regex: regex } })
+                .limit(ITEM_PER_PAGE)
+                .skip(ITEM_PER_PAGE * (page - 1));
+            return { count, students };
+        }
     } catch (err) {
         console.error('Error in fetchStudents:', err);
         throw new Error(`Failed to fetch students: ${err.message}`);
     }
 };
+
 
 
 // single student
@@ -65,14 +73,23 @@ export const fetchStudent = async (id) => {
 
 
 export default async function handler(req, res) {
+    const { q = "", page = 1, all = "false" } = req.query;
+
     try {
-      const counts = await getCounts();
-      console.log('Fetched student count:', counts.studentCount);
-      console.log('Students by exam type:', counts.studentsByExam);
-      res.json({ studentCount: counts.studentCount, studentsByExam: counts.studentsByExam });
+        if (req.query.students) {
+            // If the request is for students data
+            const { count, students } = await fetchStudents(q, parseInt(page), all === "true");
+            res.status(200).json({ count, students });
+        } else {
+            // Default behavior for fetching counts
+            const counts = await getCounts();
+            console.log('Fetched student count:', counts.studentCount);
+            console.log('Students by exam type:', counts.studentsByExam);
+            res.status(200).json({ studentCount: counts.studentCount, studentsByExam: counts.studentsByExam });
+        }
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error in handler:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 

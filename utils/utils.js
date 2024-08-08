@@ -45,23 +45,32 @@ export async function fetchUser(id) {
 }
 
 // Function to fetch students
-export async function fetchStudents(q, page) {
+export async function fetchStudents(q = "", page = 1, fetchAll = false) {
   const regex = new RegExp(q, "i");
   const ITEM_PER_PAGE = 3;
 
   try {
     connectToDB();
-    const count = await Student.find({ name: { $regex: regex } }).count();
-    const students = await Student.find({ name: { $regex: regex } })
-      .limit(ITEM_PER_PAGE)
-      .skip(ITEM_PER_PAGE * (page - 1));
 
-    return { count, students };
+    if (fetchAll) {
+      // Fetch all students without pagination
+      const students = await Student.find({ name: { $regex: regex } });
+      return { students };
+    } else {
+      // Fetch paginated students
+      const count = await Student.countDocuments({ name: { $regex: regex } });
+      const students = await Student.find({ name: { $regex: regex } })
+        .limit(ITEM_PER_PAGE)
+        .skip(ITEM_PER_PAGE * (page - 1));
+
+      return { count, students };
+    }
   } catch (err) {
     console.error('Error in fetchStudents:', err);
     throw new Error(`Failed to fetch students: ${err.message}`);
   }
 }
+
 
 // Function to fetch a single student by ID
 export async function fetchStudent(id) {

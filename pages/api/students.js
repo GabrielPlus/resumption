@@ -1,22 +1,27 @@
-"use server"
+import { fetchStudents } from '../../utils/utils';  // Adjust the path to your utils
 
+export default async function handler(req, res) {
+  const { method, query } = req;
 
+  if (method === 'GET') {
+    const { q = "", page = 1, all = "false" } = query;
 
-const express = require('express');
-const router = express.Router();
-
-const { getCounts } = require('../../utils/utils');  // Import the getCounts function
-
-// Define a route to get student count
-router.get('/getStudentCount', async (req, res) => {
     try {
-      const counts = await getCounts();
-    //   console.log('Fetched student count:', studentCount);  // ← Issue here
-      res.json({ studentCount: counts.studentCount });
+      if (all === "true") {
+        // Fetch all students if 'all' is true
+        const { students } = await fetchStudents(q, parseInt(page), true);
+        res.status(200).json({ students });
+      } else {
+        // Fetch paginated students
+        const { count, students } = await fetchStudents(q, parseInt(page), false);
+        res.status(200).json({ count, students });
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error in getStudents route:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
-
-module.exports = router;
+  } else {
+    res.setHeader('Allow', ['GET']);
+    res.status(405).end(`Method ${method} Not Allowed`);
+  }
+}
