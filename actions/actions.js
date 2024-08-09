@@ -125,7 +125,7 @@ export const authenticate = async (prevState, formData) => {
     // If additional parameters are required, pass them as needed
   } catch (err) {
     if (err.message.includes("CredentialsSignin")) {
-      throw new Error("Incorrect username or password!");
+      throw new Error("OOOps, contact admin!");
     }
     throw err;
   }

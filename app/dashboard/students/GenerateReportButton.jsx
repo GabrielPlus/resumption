@@ -1,7 +1,8 @@
-// Client-side component with "use client" directive
 "use client";
 
 import React from 'react';
+import { toast, Toaster } from 'react-hot-toast';
+import styles from "@/ui/dashboard/users/users.module.css";
 import generatePDF from './report'; // Adjust the path
 
 const GenerateReportButton = () => {
@@ -10,17 +11,27 @@ const GenerateReportButton = () => {
             const response = await fetch('/api/students?all=true');
             const data = await response.json();
             if (response.ok) {
-                generatePDF(data.students);  // Assuming generatePDF is the function to create the PDF
+                generatePDF(data.students);
+                toast.success("Check Download.");
             } else {
                 console.error('Failed to fetch all students:', data.error);
             }
         } catch (err) {
             console.error('Error generating report:', err);
+            toast.error("There was an error generating the report.");
         }
     };
 
     return (
-        <button onClick={generateReport}>Generate Report</button>
+        <>
+            <button className={styles.reportButton} onClick={generateReport}>
+                Generate Report
+            </button>
+            <Toaster
+  position="bottom-center"
+  reverseOrder={false}
+/>
+        </>
     );
 };
 
