@@ -35,7 +35,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/global.d.ts" // Adjust the path accordingly
-  ],
+, "app/dashboard/attendance/page.js"  ],
   "exclude": [
     "node_modules"
   ]

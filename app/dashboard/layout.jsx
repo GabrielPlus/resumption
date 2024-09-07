@@ -10,7 +10,7 @@ const Layout = ({children}) => {
             <Sidebar/>
         </div>
         <div className={styles.content}>
-            <Navbar/>
+            {/* <Navbar/> */}
             {children}
             <Footer />
         </div>

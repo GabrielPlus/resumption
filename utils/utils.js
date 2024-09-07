@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { User, Student } from '../models/models';
+import { User, Student, Course } from '../models/models';
 
 export const connectToDB = async () => {
   const connection = {};
@@ -102,17 +102,13 @@ export async function getCounts() {
 }
 
 
-
-// import { User, Student } from '../models/models';
-
-// // Define a function to get the counts
-// export async function getCounts() {
-//   // Count the number of users
-//   const userCount = await User.countDocuments({});
-
-//   // Count the number of students
-//   const studentCount = await Student.countDocuments({});
-
-//   // Return the counts as an object
-//   return { userCount, studentCount };
-// }
+export async function fetchCourses() {
+  try {
+    connectToDB(); // Ensure DB connection
+    const courses = await Course.find(); // Fetch all courses
+    return courses;
+  } catch (err) {
+    console.error('Error fetching courses:', err);
+    throw new Error('Failed to fetch courses');
+  }
+}
