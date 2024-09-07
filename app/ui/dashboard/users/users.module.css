@@ -1,0 +1,92 @@
+.table td:nth-child(5),
+.table td:nth-child(6), 
+.table td:nth-child(7), 
+.table td:nth-child(8), 
+.table td:nth-child(9), 
+.table td:nth-child(10),
+.table td:nth-child(11),
+.table td:nth-child(12),
+.table td:nth-child(13),
+.table td:nth-child(14)
+{
+    display: none;
+}
+
+/* Define a class to visually hide the content but keep it accessible */
+.hiddenContent {
+    visibility: hidden;
+    position: absolute;
+}
+
+.container {
+    background-color: var(--bgSoft);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addButton {
+    padding: 10px;
+    background-color: #5d57c9;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reportButton {
+    padding: 10px;
+    background-color: #5d57c9;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table {
+    width: 100%;
+}
+
+.table td {
+    padding: 10px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.userImage {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: var(--text);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+}
+
+.view {
+    background-color: teal;
+}
+
+.delete {
+    background-color: crimson;
+}
