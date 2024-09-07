@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "paths": {
-      "@lib/*": ["lib/*"],
-      "@/*": ["./*"],
-      "@api/test/data": ["../../../pages/api/test/data"]
-    }
-  }
-}
