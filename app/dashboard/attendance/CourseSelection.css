@@ -1,0 +1,11 @@
+/* Custom dropdown styling */
+.custom-dropdown {
+  background-color: #f0f0f0; /* Change this to the color you want when dropdown is opened */
+  border: 2px solid #007bff; /* Customize border color */
+  color: #333; /* Customize text color */
+}
+
+.custom-dropdown .SelectItem:hover {
+  background-color: #007bff; /* Highlight color on hover */
+  color: #fff; /* Text color when hovering */
+}

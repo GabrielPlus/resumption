@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectItem, SelectContent } from "@/components/ui/select";
 import axios from "axios";
+import './CourseSelection.css'; // Import your CSS file for custom styling
 
 function CourseSelection({ selectedCourse }) {
   const [courses, setCourses] = useState([]);
@@ -21,7 +22,7 @@ function CourseSelection({ selectedCourse }) {
     }
 
     fetchCourses();
-    setIsMounted(true); // Mark the component as mounted
+    setIsMounted(true);
   }, []);
 
   const handleCourseChange = (value) => {
@@ -39,7 +40,7 @@ function CourseSelection({ selectedCourse }) {
         <SelectTrigger>
           <Button>{selected ? selected : "Select a course"}</Button>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="custom-dropdown"> {/* Apply custom styles here */}
           {courses.map((course) => (
             <SelectItem key={course._id} value={course.name}>
               {course.name}
