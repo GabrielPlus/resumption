@@ -6,7 +6,11 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'skeleton': '#bdc7dd', // Custom color for skeleton
+      },
+    },
   },
   plugins: [],
 };
